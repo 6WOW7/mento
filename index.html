@@ -418,6 +418,7 @@
     <script>
         const SCHOOL_CODE = '8750136';
         const REGION_CODE = '31';
+        const API_KEY = 'e2fc9ed06db04bbcad6fed57de153bc2';
 
         function getFormattedDate(date = new Date()) {
             const year = date.getFullYear();
@@ -450,7 +451,7 @@
         async function loadMeal() {
             try {
                 const date = getFormattedDate();
-                const url = `https://open.neis.go.kr/hub/mealServiceDietInfo?KEY=8ff4e64a15d44e78a6e196c97753a8e2&ATPT_OFCDC_SC_CODE=${REGION_CODE}&SD_SCHUL_CODE=${SCHOOL_CODE}&MLSV_YMD=${date}&Type=json`;
+                const url = `https://open.neis.go.kr/hub/mealServiceDietInfo?KEY=${API_KEY}&ATPT_OFCDC_SC_CODE=${REGION_CODE}&SD_SCHUL_CODE=${SCHOOL_CODE}&MLSV_YMD=${date}&Type=json`;
                 
                 const response = await fetch(url);
                 const data = await response.json();
@@ -485,7 +486,7 @@
 
         async function loadSchedule() {
             try {
-                const url = `https://open.neis.go.kr/hub/timedayYeyak?KEY=8ff4e64a15d44e78a6e196c97753a8e2&ATPT_OFCDC_SC_CODE=${REGION_CODE}&SD_SCHUL_CODE=${SCHOOL_CODE}&Type=json`;
+                const url = `https://open.neis.go.kr/hub/timedayYeyak?KEY=${API_KEY}&ATPT_OFCDC_SC_CODE=${REGION_CODE}&SD_SCHUL_CODE=${SCHOOL_CODE}&Type=json`;
                 
                 const response = await fetch(url);
                 const data = await response.json();
@@ -568,7 +569,7 @@
 
         async function loadEvent() {
             try {
-                const url = `https://open.neis.go.kr/hub/SchoolSchedule?KEY=8ff4e64a15d44e78a6e196c97753a8e2&ATPT_OFCDC_SC_CODE=${REGION_CODE}&SD_SCHUL_CODE=${SCHOOL_CODE}&Type=json`;
+                const url = `https://open.neis.go.kr/hub/SchoolSchedule?KEY=${API_KEY}&ATPT_OFCDC_SC_CODE=${REGION_CODE}&SD_SCHUL_CODE=${SCHOOL_CODE}&Type=json`;
                 
                 const response = await fetch(url);
                 const data = await response.json();
