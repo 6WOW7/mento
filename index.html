@@ -14,11 +14,10 @@
         html, body {
             width: 100%;
             height: 100%;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
             background-color: #fff;
         }
 
-        /* 네비게이션 */
         nav {
             position: fixed;
             top: 0;
@@ -39,7 +38,7 @@
             font-size: 24px;
             font-weight: 700;
             color: #1a1a1a;
-            letter-spacing: -0.5px;
+            cursor: pointer;
         }
 
         .nav-menu {
@@ -54,26 +53,11 @@
             font-size: 15px;
             font-weight: 500;
             transition: color 0.3s ease;
-            position: relative;
+            cursor: pointer;
         }
 
         .nav-menu a:hover {
             color: #7c3aed;
-        }
-
-        .nav-menu a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: #7c3aed;
-            transition: width 0.3s ease;
-        }
-
-        .nav-menu a:hover::after {
-            width: 100%;
         }
 
         .nav-buttons {
@@ -87,29 +71,12 @@
             font-size: 14px;
             font-weight: 600;
             border-radius: 6px;
-            transition: all 0.3s ease;
-        }
-
-        .login-btn {
-            color: #333;
-            border: 1px solid #e0e0e0;
-        }
-
-        .login-btn:hover {
-            background-color: #f5f5f5;
-        }
-
-        .signup-btn {
             background-color: #1a1a1a;
             color: white;
+            transition: all 0.3s ease;
+            cursor: pointer;
         }
 
-        .signup-btn:hover {
-            background-color: #333;
-            transform: translateY(-2px);
-        }
-
-        /* 히어로 섹션 */
         .hero {
             width: 100%;
             height: 100vh;
@@ -120,6 +87,10 @@
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             position: relative;
             overflow: hidden;
+        }
+
+        .hero.hidden {
+            display: none;
         }
 
         .hero::before {
@@ -188,7 +159,6 @@
             color: #1a1a1a;
             margin-bottom: 20px;
             line-height: 1.2;
-            letter-spacing: -1.5px;
         }
 
         .hero-title span {
@@ -204,48 +174,6 @@
             margin-bottom: 40px;
             line-height: 1.6;
             max-width: 600px;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            margin-bottom: 60px;
-        }
-
-        .btn {
-            padding: 15px 40px;
-            font-size: 16px;
-            font-weight: 600;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .btn-primary {
-            background-color: #1a1a1a;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background-color: #333;
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .btn-secondary {
-            background-color: transparent;
-            color: #1a1a1a;
-            border: 2px solid #1a1a1a;
-        }
-
-        .btn-secondary:hover {
-            background-color: #1a1a1a;
-            color: white;
-            transform: translateY(-3px);
         }
 
         .categories {
@@ -273,108 +201,404 @@
             transform: translateY(-2px);
         }
 
+        .content-section {
+            display: none;
+            padding: 100px 50px;
+            min-height: 100vh;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .section-title {
+            font-size: 48px;
+            font-weight: 800;
+            color: #1a1a1a;
+            margin-bottom: 40px;
+        }
+
+        .meal-container {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .meal-date {
+            font-size: 18px;
+            color: #7c3aed;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .meal-list {
+            list-style: none;
+            padding: 20px;
+            background-color: #f5f5f5;
+            border-radius: 8px;
+        }
+
+        .meal-list li {
+            padding: 10px 0;
+            color: #333;
+            font-size: 16px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .meal-list li:last-child {
+            border-bottom: none;
+        }
+
+        .schedule-container {
+            margin-bottom: 40px;
+        }
+
+        .schedule-grade {
+            margin-bottom: 30px;
+        }
+
+        .grade-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #7c3aed;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        th {
+            background-color: #7c3aed;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px 15px;
+            text-align: center;
+            border-bottom: 1px solid #e0e0e0;
+            color: #333;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .event-list {
+            list-style: none;
+        }
+
+        .event-item {
+            background: white;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #7c3aed;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .event-date {
+            color: #7c3aed;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .event-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-top: 8px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .error {
+            color: #e74c3c;
+            padding: 20px;
+            background-color: #fadbd8;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
         @media (max-width: 768px) {
             nav {
                 padding: 0 20px;
-            }
-
-            .nav-menu {
-                gap: 20px;
             }
 
             .hero-title {
                 font-size: 44px;
             }
 
-            .hero-subtitle {
+            .content-section {
+                padding: 80px 20px;
+            }
+
+            table {
                 font-size: 14px;
             }
 
-            .hero-description {
-                font-size: 16px;
-                padding: 0 20px;
-            }
-
-            .hero-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .btn {
-                width: 100%;
-                max-width: 300px;
+            th, td {
+                padding: 8px 5px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- 네비게이션 -->
     <nav>
-        <div class="logo">현서고</div>
+        <div class="logo" onclick="showHome()">현서고</div>
         <ul class="nav-menu">
-            <li><a href="#notice">공지사항</a></li>
-            <li><a href="#meal">급식</a></li>
-            <li><a href="#schedule">시간표</a></li>
-            <li><a href="#info">학교소개</a></li>
+            <li><a onclick="showHome()">홈</a></li>
+            <li><a onclick="showSection('meal')">급식</a></li>
+            <li><a onclick="showSection('schedule')">시간표</a></li>
+            <li><a onclick="showSection('event')">학교일정</a></li>
         </ul>
-        <div class="nav-buttons">
-            <a href="#" class="login-btn">로그인</a>
-            <a href="#" class="signup-btn">회원가입</a>
-        </div>
     </nav>
 
-    <!-- 히어로 섹션 -->
-    <section class="hero">
+    <!-- 홈 섹션 -->
+    <section class="hero" id="hero">
         <div class="hero-content">
-            <div class="hero-subtitle">현서고등학교 공식 포털</div>
+            <div class="hero-subtitle">현서고 학생이 만든 학교 사이트</div>
             <h1 class="hero-title">
                 <span>현서고등학교</span>에 오신것을<br>환영합니다
             </h1>
             <p class="hero-description">
-                학교 공지사항, 급식, 시간표를 한 곳에서 확인하세요<br>
-                현서고만의 특별한 경험을 시작해보세요
+                학교 공지사항, 급식, 시간표를 한 곳에서 확인하세요
             </p>
-            
-            <div class="hero-buttons">
-                <button class="btn btn-primary">공지사항 보기</button>
-                <button class="btn btn-secondary">더 알아보기</button>
-            </div>
-
             <div class="categories">
-                <div class="category-tag">📢 공지사항</div>
-                <div class="category-tag">🍽️ 급식</div>
-                <div class="category-tag">📚 수업</div>
-                <div class="category-tag">🏫 학교소개</div>
-                <div class="category-tag">📋 시간표</div>
+                <div class="category-tag" onclick="showSection('meal')">🍽️ 급식</div>
+                <div class="category-tag" onclick="showSection('schedule')">📚 시간표</div>
+                <div class="category-tag" onclick="showSection('event')">📅 학교일정</div>
             </div>
         </div>
     </section>
 
+    <!-- 급식 섹션 -->
+    <section class="content-section" id="meal">
+        <h2 class="section-title">🍽️ 급식</h2>
+        <div class="meal-container">
+            <div class="meal-date" id="mealDate"></div>
+            <ul class="meal-list" id="mealList">
+                <li class="loading">급식 정보를 불러오는 중...</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 시간표 섹션 -->
+    <section class="content-section" id="schedule">
+        <h2 class="section-title">📚 시간표</h2>
+        <div class="schedule-container" id="scheduleContainer">
+            <div class="loading">시간표를 불러오는 중...</div>
+        </div>
+    </section>
+
+    <!-- 학교일정 섹션 -->
+    <section class="content-section" id="event">
+        <h2 class="section-title">📅 학교일정</h2>
+        <ul class="event-list" id="eventList">
+            <li class="loading">학교일정을 불러오는 중...</li>
+        </ul>
+    </section>
+
     <script>
-        // 버튼 클릭 이벤트
-        document.querySelectorAll('.btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                console.log('버튼 클릭됨');
-            });
-        });
+        const SCHOOL_CODE = '8750136';
+        const REGION_CODE = '31';
 
-        // 네비게이션 링크 클릭 이벤트
-        document.querySelectorAll('.nav-menu a').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                console.log('네비게이션 클릭됨');
-            });
-        });
+        function getFormattedDate(date = new Date()) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}${month}${day}`;
+        }
 
-        // 스크롤 시 네비게이션 스타일 변경
-        window.addEventListener('scroll', function() {
-            const nav = document.querySelector('nav');
-            if (window.scrollY > 50) {
-                nav.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.1)';
-            } else {
-                nav.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.05)';
+        function showHome() {
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById('hero').classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        function showSection(sectionId) {
+            document.getElementById('hero').classList.add('hidden');
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+            window.scrollTo(0, 0);
+
+            if (sectionId === 'meal') loadMeal();
+            if (sectionId === 'schedule') loadSchedule();
+            if (sectionId === 'event') loadEvent();
+        }
+
+        async function loadMeal() {
+            try {
+                const date = getFormattedDate();
+                const url = `https://open.neis.go.kr/hub/mealServiceDietInfo?KEY=8ff4e64a15d44e78a6e196c97753a8e2&ATPT_OFCDC_SC_CODE=${REGION_CODE}&SD_SCHUL_CODE=${SCHOOL_CODE}&MLSV_YMD=${date}&Type=json`;
+                
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (data.mealServiceDietInfo && data.mealServiceDietInfo[1]) {
+                    const meals = data.mealServiceDietInfo[1];
+                    const mealList = document.getElementById('mealList');
+                    const dateElement = document.getElementById('mealDate');
+
+                    const mealDate = meals[0].MLSV_YMD;
+                    dateElement.textContent = `${mealDate.slice(0, 4)}년 ${mealDate.slice(4, 6)}월 ${mealDate.slice(6, 8)}일`;
+
+                    const menuText = meals[0].DDISH_NM;
+                    const menuList = menuText.split('<br/>');
+                    
+                    mealList.innerHTML = '';
+                    menuList.forEach(menu => {
+                        if (menu.trim()) {
+                            const li = document.createElement('li');
+                            li.textContent = menu.trim().replace(/\([^)]*\)/g, '').trim();
+                            mealList.appendChild(li);
+                        }
+                    });
+                } else {
+                    document.getElementById('mealList').innerHTML = '<li class="error">급식 정보가 없습니다</li>';
+                }
+            } catch (error) {
+                console.error('급식 로드 에러:', error);
+                document.getElementById('mealList').innerHTML = '<li class="error">급식 정보를 불러올 수 없습니다</li>';
             }
-        });
+        }
+
+        async function loadSchedule() {
+            try {
+                const url = `https://open.neis.go.kr/hub/timedayYeyak?KEY=8ff4e64a15d44e78a6e196c97753a8e2&ATPT_OFCDC_SC_CODE=${REGION_CODE}&SD_SCHUL_CODE=${SCHOOL_CODE}&Type=json`;
+                
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (data.timedayYeyak && data.timedayYeyak[1]) {
+                    const schedules = data.timedayYeyak[1];
+                    const container = document.getElementById('scheduleContainer');
+                    container.innerHTML = '';
+
+                    const gradeMap = {};
+                    schedules.forEach(schedule => {
+                        const grade = schedule.GRADE;
+                        if (!gradeMap[grade]) {
+                            gradeMap[grade] = [];
+                        }
+                        gradeMap[grade].push(schedule);
+                    });
+
+                    for (let grade = 1; grade <= 3; grade++) {
+                        const gradeDiv = document.createElement('div');
+                        gradeDiv.className = 'schedule-grade';
+                        
+                        const gradeTitle = document.createElement('div');
+                        gradeTitle.className = 'grade-title';
+                        gradeTitle.textContent = `${grade}학년`;
+                        gradeDiv.appendChild(gradeTitle);
+
+                        const table = document.createElement('table');
+                        const thead = document.createElement('thead');
+                        const headerRow = document.createElement('tr');
+
+                        const days = ['월', '화', '수', '목', '금'];
+                        days.forEach(day => {
+                            const th = document.createElement('th');
+                            th.textContent = day;
+                            headerRow.appendChild(th);
+                        });
+                        thead.appendChild(headerRow);
+                        table.appendChild(thead);
+
+                        const tbody = document.createElement('tbody');
+                        const gradeSchedules = gradeMap[grade] || [];
+                        
+                        if (gradeSchedules.length > 0) {
+                            for (let period = 1; period <= 6; period++) {
+                                const row = document.createElement('tr');
+                                
+                                days.forEach((day, dayIndex) => {
+                                    const td = document.createElement('td');
+                                    const schedule = gradeSchedules.find(s => 
+                                        s.PERIO === String(period) && s.DAY_OF_WEEK === String(dayIndex + 1)
+                                    );
+                                    td.textContent = schedule ? schedule.ITRT_CRSNAM : '-';
+                                    row.appendChild(td);
+                                });
+                                
+                                tbody.appendChild(row);
+                            }
+                        } else {
+                            const row = document.createElement('tr');
+                            const td = document.createElement('td');
+                            td.colSpan = 5;
+                            td.textContent = '시간표 정보가 없습니다';
+                            row.appendChild(td);
+                            tbody.appendChild(row);
+                        }
+
+                        table.appendChild(tbody);
+                        gradeDiv.appendChild(table);
+                        container.appendChild(gradeDiv);
+                    }
+                } else {
+                    document.getElementById('scheduleContainer').innerHTML = '<div class="error">시간표 정보를 불러올 수 없습니다</div>';
+                }
+            } catch (error) {
+                console.error('시간표 로드 에러:', error);
+                document.getElementById('scheduleContainer').innerHTML = '<div class="error">시간표를 불러올 수 없습니다</div>';
+            }
+        }
+
+        async function loadEvent() {
+            try {
+                const url = `https://open.neis.go.kr/hub/SchoolSchedule?KEY=8ff4e64a15d44e78a6e196c97753a8e2&ATPT_OFCDC_SC_CODE=${REGION_CODE}&SD_SCHUL_CODE=${SCHOOL_CODE}&Type=json`;
+                
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (data.SchoolSchedule && data.SchoolSchedule[1]) {
+                    const events = data.SchoolSchedule[1];
+                    const eventList = document.getElementById('eventList');
+                    eventList.innerHTML = '';
+
+                    events.slice(0, 20).forEach(event => {
+                        const li = document.createElement('li');
+                        li.className = 'event-item';
+                        
+                        const date = event.AA_FROM_YMD;
+                        const formattedDate = `${date.slice(0, 4)}-${date.slice(4, 6)}-${date.slice(6, 8)}`;
+                        
+                        li.innerHTML = `
+                            <div class="event-date">${formattedDate}</div>
+                            <div class="event-name">${event.EVENT_NM}</div>
+                        `;
+                        eventList.appendChild(li);
+                    });
+                } else {
+                    document.getElementById('eventList').innerHTML = '<li class="error">학교일정 정보를 불러올 수 없습니다</li>';
+                }
+            } catch (error) {
+                console.error('학교일정 로드 에러:', error);
+                document.getElementById('eventList').innerHTML = '<li class="error">학교일정을 불러올 수 없습니다</li>';
+            }
+        }
     </script>
 </body>
 </html>
