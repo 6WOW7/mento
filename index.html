@@ -60,23 +60,6 @@
             color: #7c3aed;
         }
 
-        .nav-buttons {
-            display: flex;
-            gap: 15px;
-        }
-
-        .nav-buttons a {
-            text-decoration: none;
-            padding: 10px 20px;
-            font-size: 14px;
-            font-weight: 600;
-            border-radius: 6px;
-            background-color: #1a1a1a;
-            color: white;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
         .hero {
             width: 100%;
             height: 100vh;
@@ -87,43 +70,6 @@
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             position: relative;
             overflow: hidden;
-        }
-
-        .hero.hidden {
-            display: none;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(124, 58, 237, 0.1) 0%, transparent 70%);
-            border-radius: 50%;
-            top: -100px;
-            right: -100px;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .hero::after {
-            content: '';
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(124, 58, 237, 0.08) 0%, transparent 70%);
-            border-radius: 50%;
-            bottom: -50px;
-            left: -100px;
-            animation: float 8s ease-in-out infinite reverse;
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0px);
-            }
-            50% {
-                transform: translateY(30px);
-            }
         }
 
         .hero-content {
@@ -150,7 +96,6 @@
             font-weight: 600;
             letter-spacing: 1px;
             margin-bottom: 20px;
-            text-transform: uppercase;
         }
 
         .hero-title {
@@ -205,6 +150,7 @@
             display: none;
             padding: 100px 50px;
             min-height: 100vh;
+            background-color: #fff;
         }
 
         .content-section.active {
@@ -248,10 +194,6 @@
 
         .meal-list li:last-child {
             border-bottom: none;
-        }
-
-        .schedule-container {
-            margin-bottom: 40px;
         }
 
         .schedule-grade {
@@ -335,43 +277,21 @@
             border-radius: 8px;
             margin: 20px 0;
         }
-
-        @media (max-width: 768px) {
-            nav {
-                padding: 0 20px;
-            }
-
-            .hero-title {
-                font-size: 44px;
-            }
-
-            .content-section {
-                padding: 80px 20px;
-            }
-
-            table {
-                font-size: 14px;
-            }
-
-            th, td {
-                padding: 8px 5px;
-            }
-        }
     </style>
 </head>
 <body>
     <nav>
-        <div class="logo" onclick="showHome()">현서고</div>
+        <div class="logo" onclick="goHome()">현서고</div>
         <ul class="nav-menu">
-            <li><a onclick="showHome()">홈</a></li>
-            <li><a onclick="showSection('meal')">급식</a></li>
-            <li><a onclick="showSection('schedule')">시간표</a></li>
-            <li><a onclick="showSection('event')">학교일정</a></li>
+            <li><a onclick="goHome()">홈</a></li>
+            <li><a onclick="openSection('meal')">급식</a></li>
+            <li><a onclick="openSection('schedule')">시간표</a></li>
+            <li><a onclick="openSection('event')">학교일정</a></li>
         </ul>
     </nav>
 
     <!-- 홈 섹션 -->
-    <section class="hero" id="hero">
+    <section class="hero" id="heroSection">
         <div class="hero-content">
             <div class="hero-subtitle">현서고 학생이 만든 학교 사이트</div>
             <h1 class="hero-title">
@@ -381,15 +301,15 @@
                 학교 공지사항, 급식, 시간표를 한 곳에서 확인하세요
             </p>
             <div class="categories">
-                <div class="category-tag" onclick="showSection('meal')">🍽️ 급식</div>
-                <div class="category-tag" onclick="showSection('schedule')">📚 시간표</div>
-                <div class="category-tag" onclick="showSection('event')">📅 학교일정</div>
+                <div class="category-tag" onclick="openSection('meal')">🍽️ 급식</div>
+                <div class="category-tag" onclick="openSection('schedule')">📚 시간표</div>
+                <div class="category-tag" onclick="openSection('event')">📅 학교일정</div>
             </div>
         </div>
     </section>
 
     <!-- 급식 섹션 -->
-    <section class="content-section" id="meal">
+    <section class="content-section" id="mealSection">
         <h2 class="section-title">🍽️ 급식</h2>
         <div class="meal-container">
             <div class="meal-date" id="mealDate"></div>
@@ -400,15 +320,15 @@
     </section>
 
     <!-- 시간표 섹션 -->
-    <section class="content-section" id="schedule">
+    <section class="content-section" id="scheduleSection">
         <h2 class="section-title">📚 시간표</h2>
-        <div class="schedule-container" id="scheduleContainer">
+        <div id="scheduleContainer">
             <div class="loading">시간표를 불러오는 중...</div>
         </div>
     </section>
 
     <!-- 학교일정 섹션 -->
-    <section class="content-section" id="event">
+    <section class="content-section" id="eventSection">
         <h2 class="section-title">📅 학교일정</h2>
         <ul class="event-list" id="eventList">
             <li class="loading">학교일정을 불러오는 중...</li>
@@ -420,55 +340,63 @@
         const REGION_CODE = '31';
         const API_KEY = 'e2fc9ed06db04bbcad6fed57de153bc2';
 
-        function getFormattedDate(date = new Date()) {
-            const year = date.getFullYear();
-            const month = String(date.getMonth() + 1).padStart(2, '0');
-            const day = String(date.getDate()).padStart(2, '0');
-            return `${year}${month}${day}`;
+        function getToday() {
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const date = String(today.getDate()).padStart(2, '0');
+            return `${year}${month}${date}`;
         }
 
-        function showHome() {
-            document.querySelectorAll('.content-section').forEach(section => {
-                section.classList.remove('active');
-            });
-            document.getElementById('hero').classList.remove('hidden');
+        function goHome() {
+            document.getElementById('heroSection').style.display = 'flex';
+            document.getElementById('mealSection').classList.remove('active');
+            document.getElementById('scheduleSection').classList.remove('active');
+            document.getElementById('eventSection').classList.remove('active');
             window.scrollTo(0, 0);
         }
 
-        function showSection(sectionId) {
-            document.getElementById('hero').classList.add('hidden');
-            document.querySelectorAll('.content-section').forEach(section => {
-                section.classList.remove('active');
-            });
-            document.getElementById(sectionId).classList.add('active');
-            window.scrollTo(0, 0);
+        function openSection(section) {
+            document.getElementById('heroSection').style.display = 'none';
+            
+            document.getElementById('mealSection').classList.remove('active');
+            document.getElementById('scheduleSection').classList.remove('active');
+            document.getElementById('eventSection').classList.remove('active');
 
-            if (sectionId === 'meal') loadMeal();
-            if (sectionId === 'schedule') loadSchedule();
-            if (sectionId === 'event') loadEvent();
+            if (section === 'meal') {
+                document.getElementById('mealSection').classList.add('active');
+                loadMeal();
+            } else if (section === 'schedule') {
+                document.getElementById('scheduleSection').classList.add('active');
+                loadSchedule();
+            } else if (section === 'event') {
+                document.getElementById('eventSection').classList.add('active');
+                loadEvent();
+            }
+
+            window.scrollTo(0, 0);
         }
 
         async function loadMeal() {
+            const today = getToday();
+            const url = `https://open.neis.go.kr/hub/mealServiceDietInfo?KEY=${API_KEY}&ATPT_OFCDC_SC_CODE=${REGION_CODE}&SD_SCHUL_CODE=${SCHOOL_CODE}&MLSV_YMD=${today}&Type=json`;
+            
             try {
-                const date = getFormattedDate();
-                const url = `https://open.neis.go.kr/hub/mealServiceDietInfo?KEY=${API_KEY}&ATPT_OFCDC_SC_CODE=${REGION_CODE}&SD_SCHUL_CODE=${SCHOOL_CODE}&MLSV_YMD=${date}&Type=json`;
-                
                 const response = await fetch(url);
                 const data = await response.json();
 
+                const mealList = document.getElementById('mealList');
+                const mealDate = document.getElementById('mealDate');
+
                 if (data.mealServiceDietInfo && data.mealServiceDietInfo[1]) {
-                    const meals = data.mealServiceDietInfo[1];
-                    const mealList = document.getElementById('mealList');
-                    const dateElement = document.getElementById('mealDate');
+                    const meal = data.mealServiceDietInfo[1][0];
+                    const date = meal.MLSV_YMD;
+                    mealDate.textContent = `${date.substring(0, 4)}년 ${date.substring(4, 6)}월 ${date.substring(6, 8)}일`;
 
-                    const mealDate = meals[0].MLSV_YMD;
-                    dateElement.textContent = `${mealDate.slice(0, 4)}년 ${mealDate.slice(4, 6)}월 ${mealDate.slice(6, 8)}일`;
-
-                    const menuText = meals[0].DDISH_NM;
-                    const menuList = menuText.split('<br/>');
-                    
+                    const menus = meal.DDISH_NM.split('<br/>');
                     mealList.innerHTML = '';
-                    menuList.forEach(menu => {
+                    
+                    menus.forEach(menu => {
                         if (menu.trim()) {
                             const li = document.createElement('li');
                             li.textContent = menu.trim().replace(/\([^)]*\)/g, '').trim();
@@ -476,24 +404,23 @@
                         }
                     });
                 } else {
-                    document.getElementById('mealList').innerHTML = '<li class="error">급식 정보가 없습니다</li>';
+                    mealList.innerHTML = '<li class="error">급식 정보가 없습니다</li>';
                 }
             } catch (error) {
-                console.error('급식 로드 에러:', error);
                 document.getElementById('mealList').innerHTML = '<li class="error">급식 정보를 불러올 수 없습니다</li>';
             }
         }
 
         async function loadSchedule() {
+            const url = `https://open.neis.go.kr/hub/timedayYeyak?KEY=${API_KEY}&ATPT_OFCDC_SC_CODE=${REGION_CODE}&SD_SCHUL_CODE=${SCHOOL_CODE}&Type=json`;
+            
             try {
-                const url = `https://open.neis.go.kr/hub/timedayYeyak?KEY=${API_KEY}&ATPT_OFCDC_SC_CODE=${REGION_CODE}&SD_SCHUL_CODE=${SCHOOL_CODE}&Type=json`;
-                
                 const response = await fetch(url);
                 const data = await response.json();
+                const container = document.getElementById('scheduleContainer');
 
                 if (data.timedayYeyak && data.timedayYeyak[1]) {
                     const schedules = data.timedayYeyak[1];
-                    const container = document.getElementById('scheduleContainer');
                     container.innerHTML = '';
 
                     const gradeMap = {};
@@ -505,78 +432,66 @@
                         gradeMap[grade].push(schedule);
                     });
 
-                    for (let grade = 1; grade <= 3; grade++) {
+                    [1, 2, 3].forEach(grade => {
                         const gradeDiv = document.createElement('div');
                         gradeDiv.className = 'schedule-grade';
                         
-                        const gradeTitle = document.createElement('div');
-                        gradeTitle.className = 'grade-title';
-                        gradeTitle.textContent = `${grade}학년`;
-                        gradeDiv.appendChild(gradeTitle);
+                        const title = document.createElement('div');
+                        title.className = 'grade-title';
+                        title.textContent = `${grade}학년`;
+                        gradeDiv.appendChild(title);
 
                         const table = document.createElement('table');
                         const thead = document.createElement('thead');
                         const headerRow = document.createElement('tr');
 
-                        const days = ['월', '화', '수', '목', '금'];
-                        days.forEach(day => {
+                        ['월', '화', '수', '목', '금'].forEach(day => {
                             const th = document.createElement('th');
                             th.textContent = day;
                             headerRow.appendChild(th);
                         });
+                        
                         thead.appendChild(headerRow);
                         table.appendChild(thead);
 
                         const tbody = document.createElement('tbody');
                         const gradeSchedules = gradeMap[grade] || [];
-                        
-                        if (gradeSchedules.length > 0) {
-                            for (let period = 1; period <= 6; period++) {
-                                const row = document.createElement('tr');
-                                
-                                days.forEach((day, dayIndex) => {
-                                    const td = document.createElement('td');
-                                    const schedule = gradeSchedules.find(s => 
-                                        s.PERIO === String(period) && s.DAY_OF_WEEK === String(dayIndex + 1)
-                                    );
-                                    td.textContent = schedule ? schedule.ITRT_CRSNAM : '-';
-                                    row.appendChild(td);
-                                });
-                                
-                                tbody.appendChild(row);
-                            }
-                        } else {
+
+                        for (let period = 1; period <= 6; period++) {
                             const row = document.createElement('tr');
-                            const td = document.createElement('td');
-                            td.colSpan = 5;
-                            td.textContent = '시간표 정보가 없습니다';
-                            row.appendChild(td);
+                            for (let dayOfWeek = 1; dayOfWeek <= 5; dayOfWeek++) {
+                                const td = document.createElement('td');
+                                const schedule = gradeSchedules.find(s => 
+                                    s.PERIO === String(period) && s.DAY_OF_WEEK === String(dayOfWeek)
+                                );
+                                td.textContent = schedule ? schedule.ITRT_CRSNAM : '-';
+                                row.appendChild(td);
+                            }
                             tbody.appendChild(row);
                         }
 
                         table.appendChild(tbody);
                         gradeDiv.appendChild(table);
                         container.appendChild(gradeDiv);
-                    }
+                    });
                 } else {
-                    document.getElementById('scheduleContainer').innerHTML = '<div class="error">시간표 정보를 불러올 수 없습니다</div>';
+                    container.innerHTML = '<div class="error">시간표 정보를 불러올 수 없습니다</div>';
                 }
             } catch (error) {
-                console.error('시간표 로드 에러:', error);
                 document.getElementById('scheduleContainer').innerHTML = '<div class="error">시간표를 불러올 수 없습니다</div>';
             }
         }
 
         async function loadEvent() {
+            const url = `https://open.neis.go.kr/hub/SchoolSchedule?KEY=${API_KEY}&ATPT_OFCDC_SC_CODE=${REGION_CODE}&SD_SCHUL_CODE=${SCHOOL_CODE}&Type=json`;
+            
             try {
-                const url = `https://open.neis.go.kr/hub/SchoolSchedule?KEY=${API_KEY}&ATPT_OFCDC_SC_CODE=${REGION_CODE}&SD_SCHUL_CODE=${SCHOOL_CODE}&Type=json`;
-                
                 const response = await fetch(url);
                 const data = await response.json();
+                const eventList = document.getElementById('eventList');
 
                 if (data.SchoolSchedule && data.SchoolSchedule[1]) {
                     const events = data.SchoolSchedule[1];
-                    const eventList = document.getElementById('eventList');
                     eventList.innerHTML = '';
 
                     events.slice(0, 20).forEach(event => {
@@ -584,19 +499,18 @@
                         li.className = 'event-item';
                         
                         const date = event.AA_FROM_YMD;
-                        const formattedDate = `${date.slice(0, 4)}-${date.slice(4, 6)}-${date.slice(6, 8)}`;
+                        const formatted = `${date.substring(0, 4)}-${date.substring(4, 6)}-${date.substring(6, 8)}`;
                         
                         li.innerHTML = `
-                            <div class="event-date">${formattedDate}</div>
+                            <div class="event-date">${formatted}</div>
                             <div class="event-name">${event.EVENT_NM}</div>
                         `;
                         eventList.appendChild(li);
                     });
                 } else {
-                    document.getElementById('eventList').innerHTML = '<li class="error">학교일정 정보를 불러올 수 없습니다</li>';
+                    eventList.innerHTML = '<li class="error">학교일정 정보를 불러올 수 없습니다</li>';
                 }
             } catch (error) {
-                console.error('학교일정 로드 에러:', error);
                 document.getElementById('eventList').innerHTML = '<li class="error">학교일정을 불러올 수 없습니다</li>';
             }
         }
