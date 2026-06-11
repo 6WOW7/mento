@@ -290,7 +290,6 @@
         </ul>
     </nav>
 
-    <!-- 홈 섹션 -->
     <section class="hero" id="heroSection">
         <div class="hero-content">
             <div class="hero-subtitle">현서고 학생이 만든 학교 사이트</div>
@@ -308,7 +307,6 @@
         </div>
     </section>
 
-    <!-- 급식 섹션 -->
     <section class="content-section" id="mealSection">
         <h2 class="section-title">🍽️ 급식</h2>
         <div class="meal-container">
@@ -319,7 +317,6 @@
         </div>
     </section>
 
-    <!-- 시간표 섹션 -->
     <section class="content-section" id="scheduleSection">
         <h2 class="section-title">📚 시간표</h2>
         <div id="scheduleContainer">
@@ -327,7 +324,6 @@
         </div>
     </section>
 
-    <!-- 학교일정 섹션 -->
     <section class="content-section" id="eventSection">
         <h2 class="section-title">📅 학교일정</h2>
         <ul class="event-list" id="eventList">
@@ -339,6 +335,7 @@
         const SCHOOL_CODE = '8750136';
         const REGION_CODE = '31';
         const API_KEY = 'e2fc9ed06db04bbcad6fed57de153bc2';
+        const PROXY = 'https://api.allorigins.win/raw?url=';
 
         function getToday() {
             const today = new Date();
@@ -379,7 +376,8 @@
 
         async function loadMeal() {
             const today = getToday();
-            const url = `https://open.neis.go.kr/hub/mealServiceDietInfo?KEY=${API_KEY}&ATPT_OFCDC_SC_CODE=${REGION_CODE}&SD_SCHUL_CODE=${SCHOOL_CODE}&MLSV_YMD=${today}&Type=json`;
+            const apiUrl = `https://open.neis.go.kr/hub/mealServiceDietInfo?KEY=${API_KEY}&ATPT_OFCDC_SC_CODE=${REGION_CODE}&SD_SCHUL_CODE=${SCHOOL_CODE}&MLSV_YMD=${today}&Type=json`;
+            const url = PROXY + encodeURIComponent(apiUrl);
             
             try {
                 const response = await fetch(url);
@@ -407,12 +405,14 @@
                     mealList.innerHTML = '<li class="error">급식 정보가 없습니다</li>';
                 }
             } catch (error) {
+                console.error('급식 에러:', error);
                 document.getElementById('mealList').innerHTML = '<li class="error">급식 정보를 불러올 수 없습니다</li>';
             }
         }
 
         async function loadSchedule() {
-            const url = `https://open.neis.go.kr/hub/timedayYeyak?KEY=${API_KEY}&ATPT_OFCDC_SC_CODE=${REGION_CODE}&SD_SCHUL_CODE=${SCHOOL_CODE}&Type=json`;
+            const apiUrl = `https://open.neis.go.kr/hub/timedayYeyak?KEY=${API_KEY}&ATPT_OFCDC_SC_CODE=${REGION_CODE}&SD_SCHUL_CODE=${SCHOOL_CODE}&Type=json`;
+            const url = PROXY + encodeURIComponent(apiUrl);
             
             try {
                 const response = await fetch(url);
@@ -478,12 +478,14 @@
                     container.innerHTML = '<div class="error">시간표 정보를 불러올 수 없습니다</div>';
                 }
             } catch (error) {
+                console.error('시간표 에러:', error);
                 document.getElementById('scheduleContainer').innerHTML = '<div class="error">시간표를 불러올 수 없습니다</div>';
             }
         }
 
         async function loadEvent() {
-            const url = `https://open.neis.go.kr/hub/SchoolSchedule?KEY=${API_KEY}&ATPT_OFCDC_SC_CODE=${REGION_CODE}&SD_SCHUL_CODE=${SCHOOL_CODE}&Type=json`;
+            const apiUrl = `https://open.neis.go.kr/hub/SchoolSchedule?KEY=${API_KEY}&ATPT_OFCDC_SC_CODE=${REGION_CODE}&SD_SCHUL_CODE=${SCHOOL_CODE}&Type=json`;
+            const url = PROXY + encodeURIComponent(apiUrl);
             
             try {
                 const response = await fetch(url);
@@ -511,6 +513,7 @@
                     eventList.innerHTML = '<li class="error">학교일정 정보를 불러올 수 없습니다</li>';
                 }
             } catch (error) {
+                console.error('학교일정 에러:', error);
                 document.getElementById('eventList').innerHTML = '<li class="error">학교일정을 불러올 수 없습니다</li>';
             }
         }
